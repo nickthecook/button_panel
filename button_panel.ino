@@ -3,13 +3,16 @@
 #include "Keyboard.h"
 
 #define NUM_BTNS 5
+// the index of the toggle switch; we need to treat it a little differently; see below
 #define TOGGLE_IDX 4
 
+// the current state of buttons
 int state[NUM_BTNS] = {HIGH, HIGH, HIGH, HIGH, HIGH};
+// the previous state, so we can check if anything changed
 int previous_state[NUM_BTNS] = {HIGH, HIGH, HIGH, HIGH, HIGH};
-
+// the gpio pins to use; these are the five on the Micro that support interrupts
 int pins[NUM_BTNS] = {0, 1, 2, 3, 7};
-
+// for the interrupt handler to tell the loop that something was pressed
 volatile int pressed = 0;
 
 void setup() {
@@ -23,6 +26,7 @@ void setup() {
 
 void loop() {
   if (pressed) {
+    // debounce
     delay(50);
     pressed = 0;
 
@@ -30,8 +34,10 @@ void loop() {
     get_current_state();
 
     for (int i=0; i<NUM_BTNS; i++) {
+      // handle a state change in either direction for the toggle switch
       if (i == TOGGLE_IDX && previous_state[i] == LOW && state[i] == HIGH)
         command(NUM_BTNS);
+      // a button press makes a pin go from HIGH to LOW
       else if (previous_state[i] == HIGH && state[i] == LOW)
         command(i);
     }
