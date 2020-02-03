@@ -6,6 +6,7 @@ It's based on an Arduino Micro, because that board connects to the PC as a USB d
 
 When you press a button on this board, a keypress is sent to the computer. You can bind that keypress to a key binding in a game or other application.
 
+![button_panel.jpg](button_panel.jpg)
 ## Keys
 
 The code in this repo sends the following key combinations:
