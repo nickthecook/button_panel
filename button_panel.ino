@@ -77,6 +77,8 @@ void command(int cmdidx) {
       Keyboard.press('e');
       break;
     case 5:
+      // this is the case for toggle switch off; using the same key allows
+      // using this switch as a toggle in a game
       Keyboard.press('e');
       break;
   }
